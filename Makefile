@@ -64,15 +64,15 @@ libgit2:
 
 .PHONY: libgit2-linux
 libgit2-linux:
-	apt-get install -y --no-install-recommends cmake pkg-config
+	$(SUDO) apt-get install -y --no-install-recommends cmake pkg-config
 	mkdir -p deps ; \
 	cd deps ; \
 	git clone --depth 1 --single-branch https://github.com/libgit2/libgit2.git ; \
 	cd libgit2 ; \
 	mkdir build && cd build ; \
-	sudo cmake .. ; \
-	sudo cmake --build . ; \
-	sudo cmake --build . --target install
+	$(SUDO) cmake .. ; \
+	$(SUDO) cmake --build . ; \
+	$(SUDO) cmake --build . --target install
 
 .PHONY: update
 update:
