@@ -1,7 +1,7 @@
 language: go
 env:
   global:
-  - PATH=$PATH:/home/gopath/bin/
+  - PATH=$PATH:$HOME/gopath/bin/
 go:
   - 1.1
   - 1.2
