@@ -2,7 +2,6 @@ SHELL := /bin/bash
 UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
 SUDO ?= sudo
 DEBIAN_FRONTEND := noninteractive
-APT_INSTALL := "apt-get install -y --no-install-recommends"
 G := github.com/modcloth/go-git-duet
 TARGETS := \
   $(G) \
@@ -65,7 +64,7 @@ libgit2:
 
 .PHONY: libgit2-linux
 libgit2-linux:
-	$(APT_INSTALL) cmake pkg-config
+	apt-get install -y --no-install-recommends cmake pkg-config
 	mkdir -p deps ; \
 	cd deps ; \
 	git clone --depth 1 --single-branch https://github.com/libgit2/libgit2.git ; \
