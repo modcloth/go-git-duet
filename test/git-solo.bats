@@ -3,28 +3,24 @@
 load test_helper
 
 @test "sets the git user name" {
-  skip "TODO"
   git solo -q jd
   run git config user.name
   assert_success 'Jane Doe'
 }
 
 @test "sets the git user email" {
-  skip "TODO"
   git solo jd
   run git config user.email
   assert_success 'jane@hamsters.biz.local'
 }
 
 @test "caches the git user name as author name" {
-  skip "TODO"
   git solo -q jd
   run git config "$GIT_DUET_CONFIG_NAMESPACE.git-author-name"
   assert_success 'Jane Doe'
 }
 
 @test "caches the git user email as author email" {
-  skip "TODO"
   git solo -q jd
   run git config "$GIT_DUET_CONFIG_NAMESPACE.git-author-email"
   assert_success 'jane@hamsters.biz.local'
