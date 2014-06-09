@@ -48,6 +48,7 @@ deps: godep libgit2
 	go get github.com/golang/lint/golint
 	go get github.com/onsi/ginkgo/ginkgo
 	go get github.com/onsi/gomega
+	go get github.com/libgit2/git2go
 	@echo "installing bats..."
 	@if ! which bats >/dev/null ; then \
 	  git clone https://github.com/sstephenson/bats.git && \
