@@ -1,5 +1,8 @@
 SHELL := /bin/bash
+UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
 SUDO ?= sudo
+DEBIAN_FRONTEND := noninteractive
+APT_INSTALL := "apt-get install -y --no-install-recommends"
 G := github.com/modcloth/go-git-duet
 TARGETS := \
   $(G) \
@@ -16,6 +19,7 @@ GOBUILD_VERSION_ARGS := -ldflags "\
   -X $(BRANCH_VAR) $(REPO_BRANCH)"
 GINKGO_PATH ?= "."
 BATS_INSTALL_DIR ?= /usr/local
+LD_LIBRARY_PATH := /usr/local/lib:$(LD_LIBRARY_PATH)
 
 BATS_OUT_FORMAT=$(shell bash -c "echo $${CI+--tap}")
 GOBIN := $(GOPATH)/bin
@@ -23,6 +27,9 @@ GOBIN := $(GOPATH)/bin
 export GINKGO_PATH
 export GOPATH
 export GOBIN
+export UNAME
+export DEBIAN_FRONTEND
+export LD_LIBRARY_PATH
 
 .PHONY: default test
 default: test
@@ -37,7 +44,7 @@ godep:
 	go get github.com/tools/godep
 
 .PHONY: deps
-deps: godep
+deps: godep libgit2
 	$(GOBIN)/godep restore
 	go get github.com/golang/lint/golint
 	go get github.com/onsi/ginkgo/ginkgo
@@ -49,6 +56,28 @@ deps: godep
 	  rm -rf bats ; \
 	  fi
 
+.PHONY: libgit2
+libgit2:
+	@echo "installing libgit2"
+	@if [[ "$(UNAME)" == "darwin" ]] ; then \
+	  brew install libgit2 --HEAD && brew install pkg-config  && brew install cmake ; fi
+	@if [[ "$(UNAME)" == "linux" ]] ; then $(MAKE) libgit2-linux ; fi
+
+.PHONY: libgit2-linux
+libgit2-linux:
+	$(INSTALL) cmake pkg-config
+	mkdir -p deps ; \
+	cd deps ; \
+	git clone --depth 1 --single-branch https://github.com/libgit2/libgit2.git ; \
+	cd libgit2 ; \
+	mkdir build && cd build ; \
+	sudo cmake .. ; \
+	sudo cmake --build . ; \
+	sudo cmake --build . --target install
+
+.PHONY: update
+update:
+	@if [[ "$(UNAME)" == "darwin" ]] ; then brew uninstall libgit2 && brew install libgit2 --HEAD && brew uninstall pkg-config && brew install pkg-config ; fi
 
 .PHONY: fmtpolice
 fmtpolice: deps fmt lint
