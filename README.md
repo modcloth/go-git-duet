@@ -1,6 +1,6 @@
 # Git Duet
 
-** WORK IN PROGRESS -- actively porting github.com/modcloth/git-duet to Golang **
+**WORK IN PROGRESS -- actively porting github.com/modcloth/git-duet to Golang**
 
 [![Build Status](https://travis-ci.org/modcloth/go-git-duet.png?branch=master)](https://travis-ci.org/modcloth/go-git-duet)
 
