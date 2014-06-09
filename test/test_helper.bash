@@ -1,3 +1,5 @@
+export PATH=$GOBIN:$PATH
+
 setup() {
   GIT_DUET_TEST_DIR="${BATS_TMPDIR}/git-duet"
 
