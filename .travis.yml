@@ -5,12 +5,15 @@ env:
 go:
   - 1.1
   - 1.2
-before_script:
-- git clone https://github.com/sstephenson/bats.git
-- cd bats && sudo ./install.sh /usr/local
+before_install:
 - go get github.com/tools/godep
 - make deps
 install:
+- make build
+before_script:
+- git clone https://github.com/sstephenson/bats.git
+- cd bats && sudo ./install.sh /usr/local
+script:
 - make test
 notifications:
   email: github+go-git-duet@modcloth.com
