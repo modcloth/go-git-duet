@@ -1,13 +1,13 @@
 language: go
-env:
-  global:
-  - PATH=$PATH:$HOME/gopath/bin/
+
 go:
-  - 1.1
-  - 1.2
+- 1.2
+
 install:
 - make build
+
 script:
 - make test
+
 notifications:
   email: github+go-git-duet@modcloth.com
