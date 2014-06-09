@@ -5,7 +5,9 @@ go:
 before_script:
 - git clone https://github.com/sstephenson/bats.git
 - cd bats && sudo ./install.sh /usr/local
-script:
-- bats test
+- go get github.com/tools/godep
+- make deps
+install:
+- make test
 notifications:
   email: github+go-git-duet@modcloth.com
