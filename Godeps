@@ -1,0 +1,8 @@
+{
+	"ImportPath": "github.com/modcloth/go-git-duet",
+	"GoVersion": "go1.2.1",
+	"Packages": [
+		"./..."
+	],
+	"Deps": []
+}
