@@ -75,7 +75,7 @@ libgit2-linux:
 	  $(SUDO) cmake --build . && \
 	  $(SUDO) cmake --build . --target install && \
 	  popd >/dev/null && \
-	  rm -rf deps
+	  $(SUDO) rm -rf deps
 
 .PHONY: update
 update:
