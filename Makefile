@@ -65,7 +65,7 @@ libgit2:
 
 .PHONY: libgit2-linux
 libgit2-linux:
-	$(INSTALL) cmake pkg-config
+	$(APT_INSTALL) cmake pkg-config
 	mkdir -p deps ; \
 	cd deps ; \
 	git clone --depth 1 --single-branch https://github.com/libgit2/libgit2.git ; \
