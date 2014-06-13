@@ -16,7 +16,6 @@ GOBUILD_VERSION_ARGS := -ldflags "\
   -X $(REV_VAR) $(REPO_REV) \
   -X $(VERSION_VAR) $(REPO_VERSION) \
   -X $(BRANCH_VAR) $(REPO_BRANCH)"
-GINKGO_PATH ?= "."
 BATS_INSTALL_DIR ?= /usr/local
 LD_LIBRARY_PATH := /usr/local/lib:$(LD_LIBRARY_PATH)
 
@@ -24,7 +23,6 @@ BATS_OUT_FORMAT=$(shell bash -c "echo $${CI+--tap}")
 GOBIN := $(GOPATH)/bin
 PATH := $(GOBIN):$(PATH)
 
-export GINKGO_PATH
 export GOPATH
 export GOBIN
 export UNAME
@@ -34,7 +32,7 @@ export PATH
 
 .PHONY: default test
 default: test
-test: build fmtpolice ginkgo bats
+test: build fmtpolice bats
 
 .PHONY: savedeps
 savedeps:
@@ -48,8 +46,6 @@ godep:
 deps: godep libgit2
 	$(GOBIN)/godep restore
 	go get github.com/golang/lint/golint
-	go get github.com/onsi/ginkgo/ginkgo
-	go get github.com/onsi/gomega
 	go get github.com/libgit2/git2go
 	@echo "installing bats..."
 	@if ! which bats >/dev/null ; then \
@@ -109,16 +105,6 @@ lint:
 lintv:
 	@echo "----------"
 	@for file in $(shell git ls-files '*.go') ; do $(GOPATH)/bin/golint $$file ; done
-
-.PHONY: ginkgo
-ginkgo:
-	@echo "----------"
-	@if [[ "$(GINKGO_PATH)" == "." ]] ; then \
-	  echo "$(GOPATH)/bin/ginkgo -nodes=10 -noisyPendings -race -r ." && \
-	  $(GOPATH)/bin/ginkgo -nodes=10 -noisyPendings -race -r . ; \
-	  else echo "$(GOPATH)/bin/ginkgo -nodes=10 -noisyPendings -race --v $(GINKGO_PATH)" && \
-	  $(GOPATH)/bin/ginkgo -nodes=10 -noisyPendings -race --v $(GINKGO_PATH) ; \
-	  fi
 
 .PHONY: bats
 bats:
