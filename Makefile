@@ -22,6 +22,7 @@ GOBUILD_VERSION_ARGS := -ldflags "\
 LD_LIBRARY_PATH := /usr/local/lib:$(LD_LIBRARY_PATH)
 
 BATS_OUT_FORMAT=$(shell bash -c "echo $${CI+--tap}")
+GOPATH := $(shell echo $${GOPATH%%:*})
 GOBIN := $(GOPATH)/bin
 PATH := $(GOBIN):$(PATH)
 
