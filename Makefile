@@ -3,9 +3,12 @@ UNAME := $(shell uname | tr '[:upper:]' '[:lower:]')
 SUDO ?= sudo
 DEBIAN_FRONTEND := noninteractive
 G := github.com/modcloth/go-git-duet
-TARGETS := \
+PACKAGES := \
   $(G) \
   $(G)/version
+EXECUTABLES := \
+  $(G)/git-duet \
+  $(G)/git-solo
 REV_VAR := $(G)/version.RevString
 VERSION_VAR := $(G)/version.VersionString
 BRANCH_VAR := $(G)/version.BranchString
@@ -112,15 +115,13 @@ bats:
 	$(BATS_INSTALL_DIR)/bin/bats $(BATS_OUT_FORMAT) $(shell find . -type f -name '*.bats')
 
 .PHONY: binclean
-biclean:
+binclean:
 	rm -f $(GOBIN)/git-duet
 	rm -f $(GOBIN)/git-solo
 
 .PHONY: build
 build: binclean deps
-	go build -o $(GOBIN)/git-duet $(GOBUILD_VERSION_ARGS) $(GO_TAG_ARGS) $(G)/git-duet
-	go build -o $(GOBIN)/git-solo $(GOBUILD_VERSION_ARGS) $(GO_TAG_ARGS) $(G)/git-solo
-	go install $(GOBUILD_VERSION_ARGS) $(GO_TAG_ARGS) $(TARGETS)
+	go install $(GOBUILD_VERSION_ARGS) $(GO_TAG_ARGS) $(PACKAGES) $(EXECUTABLES)
 
 .PHONY: gopath
 gopath:
