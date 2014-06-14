@@ -19,7 +19,6 @@ GOBUILD_VERSION_ARGS := -ldflags "\
   -X $(REV_VAR) $(REPO_REV) \
   -X $(VERSION_VAR) $(REPO_VERSION) \
   -X $(BRANCH_VAR) $(REPO_BRANCH)"
-BATS_INSTALL_DIR ?= /usr/local
 LD_LIBRARY_PATH := /usr/local/lib:$(LD_LIBRARY_PATH)
 
 BATS_OUT_FORMAT=$(shell bash -c "echo $${CI+--tap}")
@@ -39,15 +38,14 @@ godep:
 	go get github.com/tools/godep
 
 .PHONY: deps
-deps: godep libgit2
+deps: godep
 	$(GOBIN)/godep restore
 	go get github.com/golang/lint/golint
 	go get github.com/libgit2/git2go
 	@echo "installing bats..."
-	@if ! which bats >/dev/null ; then \
+	@if ! ls ./bats/bin/bats >/dev/null 2>&1 ; then \
 	  git clone https://github.com/sstephenson/bats.git && \
-	  (cd bats && $(SUDO) ./install.sh $(BATS_INSTALL_DIR)) && \
-	  rm -rf bats ; \
+	  rm -rf ./bats/test ; \
 	  fi
 
 .PHONY: libgit2
@@ -105,7 +103,7 @@ lintv:
 .PHONY: bats
 bats:
 	@echo "----------"
-	$(BATS_INSTALL_DIR)/bin/bats $(BATS_OUT_FORMAT) $(shell find . -type f -name '*.bats')
+	./bats/bin/bats $(BATS_OUT_FORMAT) $(shell find . -type f -name '*.bats')
 
 .PHONY: binclean
 binclean:
