@@ -26,13 +26,6 @@ BATS_OUT_FORMAT=$(shell bash -c "echo $${CI+--tap}")
 GOBIN := $(GOPATH)/bin
 PATH := $(GOBIN):$(PATH)
 
-export GOPATH
-export GOBIN
-export UNAME
-export DEBIAN_FRONTEND
-export LD_LIBRARY_PATH
-export PATH
-
 .PHONY: default test
 default: test
 test: build fmtpolice bats
