@@ -4,6 +4,7 @@ go:
 - 1.2
 
 install:
+- make libgit2-linux
 - make build
 
 script:
