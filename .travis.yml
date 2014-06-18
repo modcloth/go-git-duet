@@ -1,19 +1,14 @@
 language: go
-env:
-  global:
-  - PATH=$PATH:$HOME/gopath/bin/
+
 go:
-  - 1.1
-  - 1.2
-before_install:
-- go get github.com/tools/godep
-- make deps
+- 1.2
+
 install:
+- make libgit2-linux
 - make build
-before_script:
-- git clone https://github.com/sstephenson/bats.git
-- cd bats && sudo ./install.sh /usr/local
+
 script:
 - make test
+
 notifications:
   email: github+go-git-duet@modcloth.com

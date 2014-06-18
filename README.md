@@ -11,10 +11,10 @@ identities.
 
 ## Installation
 
-Install it with `gem`:
+<del>Install it with `gem`:</del>
 
 ``` bash
-gem install git-duet
+# gem install git-duet
 ```
 
 ## Usage
